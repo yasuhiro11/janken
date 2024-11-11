@@ -1,4 +1,12 @@
 require "csv" # CSVファイルを扱うためのライブラリを読み込んでいます
+# じゃんけんゲームの結果を記録するCSVファイルのパス
+RESULT_FILE = "janken_results.csv"
+
+def save_result(result)
+    CSV.open(RESULT_FILE, "a") do |csv|
+        csv << [result]  #結果をCSVに保存
+    end
+end
 
 def janken
 puts "じゃんけん..."
@@ -23,9 +31,11 @@ if player_hand == program_hand
     return janken #あいこの場合はもう一度じゃんけん
 elsif (player_hand == 0 && program_hand == 1) || (player_hand == 1 && program_hand == 2) || (player_hand == 2 && program_hand == 0)
     puts "じゃんけんに勝ちました！あっち向いてホイに進みます。"
+    save_result("勝ち")
     return attimuite_hoi("勝ち")
 else
     puts "じゃんけんに負けました。あっち向いてホイに進みます。"
+    save_result("負け")
     return attimuite_hoi("負け")
     end
 end
